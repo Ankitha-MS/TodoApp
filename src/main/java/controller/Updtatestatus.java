@@ -24,38 +24,13 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 		}
 		else
 		{
-			//logic to fetch task
 			int id=Integer.parseInt(req.getParameter("id"));
 			UserDao userDao=new UserDao();
-			Task task=userDao.fetchTask(id);//primary key
+			req.setAttribute("task", userDao.fetchTask(id));
+			req.getRequestDispatcher("EditTask.jsp").forward(req, resp);
 			
-			//logic to change status
-			if(task.isStatus()) //it will check the status if it is ture it will return false, if it is false
-			{
-				task.setStatus(false);
-			}
-			else
-			{
-				task.setStatus(true);
-			}
-			
-			
-			userDao.update(task);//it will change in the database
-			
-			//logic to update thr session
-			MyUser myUser2=userDao.findByEmail(myUser.getEmail());
-			req.getSession().setAttribute("user", myUser2);
-			
-			//give the msg
-			resp.getWriter().print("<h1 style='color:Blue'>Status changes Success</h1>");
-			
-			//carry again to the home.jsp
-			req.setAttribute("list", myUser2.getTasks());
-			req.getRequestDispatcher("Home.jsp").include(req, resp);
-
+		
 		}
-		
-		
 	}
 }
 

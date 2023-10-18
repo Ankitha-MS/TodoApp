@@ -38,7 +38,7 @@ public class Deletestatus extends HttpServlet {
 				//logic to remove mapping
 				myUser.getTasks().remove(task);
 				userDao.update(myUser);
-				
+				 
 				//logic to delete
 				userDao.remove(task);
 				
